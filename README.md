@@ -33,7 +33,7 @@ dotnet build -c Release
 dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
 ```
 
-Результат — один exe (~150 МБ, включает весь .NET runtime) в
+Результат — ровно один exe (~70 МБ, включает весь .NET runtime, сжат) в
 `ServiceWatchdog\bin\Release\net8.0-windows\win-x64\publish\ServiceWatchdog.exe`.
 Его можно скопировать на любой Windows 10/11 x64 ПК и запустить без предустановленного .NET.
 
