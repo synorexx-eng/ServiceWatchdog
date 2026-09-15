@@ -25,14 +25,17 @@ dotnet build -c Release
 ```
 
 Готовый exe: `ServiceWatchdog\bin\Release\net8.0-windows\ServiceWatchdog.exe`.
+Требует установленный на целевой машине .NET 8 Desktop Runtime.
 
-Или публикация в отдельную папку:
+### Публикация одним файлом (без установки .NET на целевой машине)
 
 ```
-dotnet publish -c Release -r win-x64 --self-contained false
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
 ```
 
-Результат в `ServiceWatchdog\bin\Release\net8.0-windows\win-x64\publish\`.
+Результат — один exe (~150 МБ, включает весь .NET runtime) в
+`ServiceWatchdog\bin\Release\net8.0-windows\win-x64\publish\ServiceWatchdog.exe`.
+Его можно скопировать на любой Windows 10/11 x64 ПК и запустить без предустановленного .NET.
 
 ## Использование
 

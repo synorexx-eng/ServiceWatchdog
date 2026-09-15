@@ -12,6 +12,13 @@
     <RootNamespace>ServiceWatchdog</RootNamespace>
     <ApplicationIcon>app.ico</ApplicationIcon>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <!-- Применяется только при `dotnet publish` (не влияет на обычную сборку/отладку). -->
+  <PropertyGroup Condition="'$(PublishSelfContained)' == 'true' Or '$(SelfContained)' == 'true'">
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
 
   <ItemGroup>

@@ -19,6 +19,7 @@ public partial class MainWindow : Window
 
     private NotifyIcon? _notifyIcon;
     private bool _isExiting;
+    private bool _hasShownTrayNotice;
 
     public MainWindow() : this(false) { }
 
@@ -68,6 +69,19 @@ public partial class MainWindow : Window
         Show();
         WindowState = WindowState.Normal;
         Activate();
+    }
+
+    private void HideToTray()
+    {
+        Hide();
+        if (_hasShownTrayNotice) return;
+        _hasShownTrayNotice = true;
+
+        _notifyIcon?.ShowBalloonTip(
+            3000,
+            "ServiceWatchdog продолжает работать",
+            "Приложение свёрнуто в трей и продолжает мониторинг. Чтобы открыть окно — дважды кликните по значку, для выхода используйте пункт меню \"Выход\".",
+            ToolTipIcon.Info);
     }
 
     private void ExitApplication()
@@ -170,7 +184,7 @@ public partial class MainWindow : Window
     private void Window_StateChanged(object? sender, EventArgs e)
     {
         if (WindowState == WindowState.Minimized)
-            Hide();
+            HideToTray();
     }
 
     private void Window_Closing(object? sender, CancelEventArgs e)
@@ -184,6 +198,6 @@ public partial class MainWindow : Window
 
         // По умолчанию закрытие окна сворачивает в трей, а не завершает мониторинг.
         e.Cancel = true;
-        Hide();
+        HideToTray();
     }
 }
