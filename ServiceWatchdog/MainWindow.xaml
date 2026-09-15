@@ -1,0 +1,54 @@
+<Window x:Class="ServiceWatchdog.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="ServiceWatchdog" Height="560" Width="920"
+        MinHeight="420" MinWidth="700"
+        StateChanged="Window_StateChanged"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="ToolbarButton">
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel Margin="12">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Добавить" Style="{StaticResource ToolbarButton}" Click="AddRule_Click"/>
+            <Button Content="Изменить" Style="{StaticResource ToolbarButton}" Click="EditRule_Click"/>
+            <Button Content="Удалить" Style="{StaticResource ToolbarButton}" Click="DeleteRule_Click"/>
+            <Button Content="Проверить сейчас" Style="{StaticResource ToolbarButton}" Click="CheckNow_Click"/>
+            <Separator Margin="8,0" Width="1" Background="#DDD"/>
+            <CheckBox x:Name="StartWithWindowsCheckBox" Content="Запускать при входе в Windows"
+                      VerticalAlignment="Center" Margin="16,0,0,0"
+                      Checked="StartWithWindowsCheckBox_Changed" Unchecked="StartWithWindowsCheckBox_Changed"/>
+        </StackPanel>
+
+        <Grid DockPanel.Dock="Bottom" Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="90"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Журнал событий:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <ListBox x:Name="LogListBox" Grid.Row="1" FontFamily="Consolas" FontSize="11"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        </Grid>
+
+        <DataGrid x:Name="RulesGrid" AutoGenerateColumns="False" CanUserAddRows="False"
+                  IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"
+                  MouseDoubleClick="RulesGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Вкл" Binding="{Binding Enabled}" Width="50" IsReadOnly="False"/>
+                <DataGridTextColumn Header="Имя правила" Binding="{Binding Name}" Width="150"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="80"/>
+                <DataGridTextColumn Header="Служба / Процесс" Binding="{Binding TargetDisplay}" Width="220"/>
+                <DataGridTextColumn Header="Интервал, с" Binding="{Binding IntervalSeconds}" Width="90"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="220"/>
+                <DataGridTextColumn Header="Последняя проверка" Binding="{Binding LastChecked, StringFormat='HH:mm:ss'}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

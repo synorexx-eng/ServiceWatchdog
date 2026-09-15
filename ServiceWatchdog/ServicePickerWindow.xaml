@@ -1,0 +1,27 @@
+<Window x:Class="ServiceWatchdog.ServicePickerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Выбор службы" Height="480" Width="520"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+    <DockPanel Margin="12">
+        <TextBox x:Name="FilterTextBox" DockPanel.Dock="Top" Margin="0,0,0,8" Padding="4"
+                 TextChanged="FilterTextBox_TextChanged"
+                 Tag="Фильтр по имени…"/>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Content="Отмена" Width="90" Padding="6" Margin="0,0,8,0" Click="CancelButton_Click" IsCancel="True"/>
+            <Button Content="Выбрать" Width="90" Padding="6" Click="SelectButton_Click" IsDefault="True"/>
+        </StackPanel>
+        <ListView x:Name="ServicesListView" MouseDoubleClick="ServicesListView_MouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Отображаемое имя" Width="260" DisplayMemberBinding="{Binding DisplayName}"/>
+                    <GridViewColumn Header="Имя службы" Width="150" DisplayMemberBinding="{Binding ServiceName}"/>
+                    <GridViewColumn Header="Статус" Width="80" DisplayMemberBinding="{Binding Status}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</Window>
