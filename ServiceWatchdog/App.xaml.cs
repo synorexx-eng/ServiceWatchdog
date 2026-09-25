@@ -7,6 +7,7 @@ namespace ServiceWatchdog;
 public partial class App : Application
 {
     private System.Threading.Mutex? _singleInstanceMutex;
+    private bool _ownsMutex;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -24,6 +25,7 @@ public partial class App : Application
 
         const string mutexName = "ServiceWatchdog-SingleInstance-Mutex";
         _singleInstanceMutex = new System.Threading.Mutex(true, mutexName, out var createdNew);
+        _ownsMutex = createdNew;
         if (!createdNew)
         {
             MessageBox.Show(
@@ -39,12 +41,15 @@ public partial class App : Application
 
         var mainWindow = new MainWindow(startMinimized);
         MainWindow = mainWindow;
-        mainWindow.Show();
+        if (!mainWindow.StartHidden)
+            mainWindow.Show();
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
-        _singleInstanceMutex?.ReleaseMutex();
+        // Mutex освобождаем, только если им владеет этот экземпляр (у второго экземпляра ReleaseMutex бросит исключение).
+        if (_ownsMutex)
+            _singleInstanceMutex?.ReleaseMutex();
         base.OnExit(e);
     }
 }

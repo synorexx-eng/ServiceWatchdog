@@ -40,11 +40,11 @@ public partial class MainWindow : Window
 
         SetupTrayIcon();
 
-        if (startMinimized || _settings.StartMinimized)
-        {
-            Hide();
-        }
+        StartHidden = startMinimized || _settings.StartMinimized;
     }
+
+    /// <summary>Окно не показывается при старте — приложение сразу работает из трея.</summary>
+    public bool StartHidden { get; }
 
     private void SetupTrayIcon()
     {
